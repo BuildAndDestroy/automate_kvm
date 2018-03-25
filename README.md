@@ -1,20 +1,22 @@
-BETA
+# BETA
 
 Currently these scripts do not work, the roadmap compiles of getting the parsed arguments create then apply the subprocesses. An example command will look like:
 
-#  kvm_installer -n <hostname> -c <# of VCPUs> -r <# of ram in MB> -l <location of mirror for install> -o <Operating System name like "rhel7"> -d <# of Gigs for volume size> -b <Network bridge adapter> -i <directory and file name for kickstart> -e <additional arguments like output to terminal and the kickstart file name>
+# EXAMPLE
 
-INSTALL
+\#  kvm_installer -n <hostname> -c <# of VCPUs> -r <# of ram in MB> -l <location of mirror for install> -o <Operating System name like "rhel7"> -d <# of Gigs for volume size> -b <Network bridge adapter> -i <directory and file name for kickstart> -e <additional arguments like output to terminal and the kickstart file name>
 
-# pip install automate_kvm/.
+# INSTALL
 
-
-UPGRADE
-
-# pip install --upgrade automate_kvm/.
+\# pip install automate_kvm/.
 
 
-BUGS
+# UPGRADE
+
+\# pip install --upgrade automate_kvm/.
+
+
+# BUGS
 
 Please open an issue on github and give terminal output. Please give details on how how to reproduce the issue as well.
 
