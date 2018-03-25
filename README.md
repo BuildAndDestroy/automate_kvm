@@ -4,7 +4,7 @@ Currently these scripts do not work, the roadmap compiles of getting the parsed 
 
 # EXAMPLE
 
-\#  kvm_installer -n <hostname> -c <# of VCPUs> -r <# of ram in MB> -l <location of mirror for install> -o <Operating System name like "rhel7"> -d <# of Gigs for volume size> -b <Network bridge adapter> -i <directory and file name for kickstart> -e <additional arguments like output to terminal and the kickstart file name>
+\#  kvm_installer -n \<hostname> -c \<# of VCPUs> -r \<# of ram in MB> -l \<location of mirror for install> -o \<Operating System name like "rhel7"> -d \<# of Gigs for volume size> -b \<Network bridge adapter> -i \<directory and file name for kickstart> -e \<additional arguments like output to terminal and the kickstart file name>
 
 # INSTALL
 
