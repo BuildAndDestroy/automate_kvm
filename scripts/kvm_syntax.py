@@ -24,7 +24,7 @@ import argparse
 def parse_arguments():
     """Arguments compiled to create KVM guest on a RedHat/CentOS host."""
     description = '[*] KVM automation for automating virtual machines using Bash and Python.'
-    github_url = 'PLACE GITHUB URL HERE ON NEXT PUSH.'
+    github_url = 'https://github.com/BuildAndDestroy/automate_kvm'
     epilog = 'Github reference:\n[*] {}\n\r'.format(github_url)
 
     parser = argparse.ArgumentParser(

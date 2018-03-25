@@ -5,10 +5,9 @@
     "sudo pip install ."
 """
 
-#import pkg_resources
 from setuptools import setup
 
-__version__ = '1.0'
+__version__ = '2.0-subprocess'
 packages = ['scripts']
 commands = ['kvm_installer = scripts.kvm_syntax:main']
 
@@ -19,7 +18,7 @@ setup(
     author              = 'Mitch O\'Donnell',
     author_email        = 'devreap1@gmail.com',
     packages            = packages,
-    url                 = '',
+    url                 = 'https://github.com/BuildAndDestroy/automate_kvm',
     license             = open('LICENSE').read(),
     install_requires    = [],
     entry_points        = {'console_scripts': commands},
