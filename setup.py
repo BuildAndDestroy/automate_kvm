@@ -7,9 +7,9 @@
 
 from setuptools import setup
 
-__version__ = '2.0-subprocess'
-packages = ['scripts']
-commands = ['kvm_installer = scripts.kvm_syntax:main']
+__version__ = '2.0-virsh-install'
+packages = ['virsh_installs', 'snapshots']
+commands = ['kvm_virsh_install = virsh_installs.virt_install:main']
 
 setup(
     name                = 'automate_kvm',

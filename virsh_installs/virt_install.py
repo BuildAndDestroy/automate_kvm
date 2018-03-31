@@ -22,7 +22,18 @@ import argparse
 
 
 def parse_arguments():
-    """Arguments compiled to create KVM guest on a RedHat/CentOS host."""
+    """Arguments compiled to create KVM guest on a RedHat/CentOS host.
+        Bash example:
+        virt-install --name python-prep \
+        --vcpu 2 \
+        --ram 2048 \
+        --location http://mirror.centos.org/centos/6/os/x86_64/ \
+        --os-variant rhel6 \
+        --disk /var/lib/libvirt/images/python-prep.qcow2,size=8 \
+        --network bridge=virbr0 \
+        --graphics none \
+        --extra-args "console=ttyS0"
+    """
     description = '[*] KVM automation for automating virtual machines using Bash and Python.'
     github_url = 'https://github.com/BuildAndDestroy/automate_kvm'
     epilog = 'Github reference:\n[*] {}\n\r'.format(github_url)
@@ -35,6 +46,7 @@ def parse_arguments():
                         help='Apply extra arguments to install.\nExample: console=ttyS0')
     parser.add_argument('-L', '--License', action='store_true',
                         help='Display shortened License.\nRead LICENSE file for full license.')
+    parser.add_argument('-p', '--disk-path', nargs=1, help='Give your guest an image path with format.\nExample: /var/lib/libvirt/images/image.qcow2')
 
     required_name = parser.add_argument_group(
         'Required arguments for guest creation')
@@ -69,6 +81,9 @@ def main():
     """Run the kvm_installer script."""
     args = parse_arguments()
     print args
+
+    # example subprocess that works:
+    #subprocess.call(['virt-install', '--name', 'centos_python', '--vcpus', '2', '--ram', '2048', '--location', 'http://mirror.centos.org/centos/6/os/x86_64/', '--os-variant', 'rhel6', '--disk', 'size=8', '--network', 'bridge=virbr0', '--graphics', 'none', '--extra-args', '"console=ttyS0"'])
 
     if __name__ == '__main__':
         main()
