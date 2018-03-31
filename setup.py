@@ -7,9 +7,10 @@
 
 from setuptools import setup
 
-__version__ = '2.0-virsh-install'
-packages = ['virsh_installs', 'snapshots']
-commands = ['kvm_virsh_install = virsh_installs.virt_install:main']
+__version__ = '2.1-argparse'
+packages = ['virsh_installs', 'snapshots', 'lib']
+commands = ['kvm_virsh_install = virsh_installs.virt_install:main',
+            'kvm_virsh_snapshot = snapshots.virsh_snapshot:main']
 
 setup(
     name                = 'automate_kvm',
