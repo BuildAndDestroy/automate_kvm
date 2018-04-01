@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-
 """
     KVM automation for automating virtual machines using Bash and Python.
-    Copyright (C) 2018  Mitch O'Donnell devreap1@gmail.com
+    Copyright (C) 2018 Mitch O'Donnell devreap1@gmail.com
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,14 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from lib.arguments import create_snapshot_arguments
+import subprocess
 
-def main():
-    """Compile snapshot request, then take snapshot."""
-    args = create_snapshot_arguments()
-    print args
+def call_subprocess(virt_install):
+    subprocess.call(virt_install)
 
-	#print '[*] BETA, currently not working.'
-
-if __name__ == '__main__':
-	main()

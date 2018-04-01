@@ -7,7 +7,7 @@
 
 from setuptools import setup
 
-__version__ = '2.1-argparse'
+__version__ = '2.4-virsh-command'
 packages = ['virsh_installs', 'snapshots', 'lib']
 commands = ['kvm_virsh_install = virsh_installs.virt_install:main',
             'kvm_virsh_snapshot = snapshots.virsh_snapshot:main']

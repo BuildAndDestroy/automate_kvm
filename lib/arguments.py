@@ -19,6 +19,31 @@
 
 import argparse
 
+class VirtInstall(object):
+    """Parse arguments for virt-install."""
+    def __init__(self, arg):
+        pass
+        
+
+def create_snapshot_arguments():
+    """Accept arguments to take a snapshot.
+        virsh snapshot-create-as --domain <name from virsh list> \
+        --name <new snapshot name>
+    """
+    description = '[*] KVM automation for automating virtual machines using Bash and Python.'
+    github_url = 'https://github.com/BuildAndDestroy/automate_kvm'
+    epilog = 'Github reference:\n[*] {}\n\r'.format(github_url)
+
+    parser = argparse.ArgumentParser(description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
+
+    required_name = parser.add_argument_group('Required arguments for snapshot creation')
+
+    required_name.add_argument('-d', '--domain', nargs=1, type=str, help='Provide hostname for snapshot.', required=True)
+    required_name.add_argument('-n', '--name', nargs=1, type=str, help='provide name for new snapshot being created.', required=True)
+
+    args = parser.parse_args()
+    return args
+
 def virt_install_arguments():
     """Arguments compiled to create KVM guest on a RedHat/CentOS host.
         Bash example:
@@ -38,20 +63,19 @@ def virt_install_arguments():
 
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-i', '--initrd-inject', nargs=1, type=str,
+    parser.add_argument('-i', '--initrd_inject', nargs=1, type=str,
                         help='Inject scripts, such as a kickstart, into the initramfs.')
-    parser.add_argument('-e', '--extra-args', nargs='*', type=str,
+    parser.add_argument('-e', '--extra_args', nargs='*', type=str,
                         help='Apply extra arguments to install.\nExample: console=ttyS0')
     parser.add_argument('-L', '--License', action='store_true',
                         help='Display shortened License.\nRead LICENSE file for full license.')
-    parser.add_argument('-p', '--disk-path', nargs=1, help='Give your guest an image path with format.\nExample: /var/lib/libvirt/images/image.qcow2')
 
     required_name = parser.add_argument_group(
         'Required arguments for guest creation')
 
     required_name.add_argument('-n', '--name', nargs=1, type=str,
                                help='Provide a hostname for the guest.', required=True)
-    required_name.add_argument('-c', '--vcpu', nargs=1, type=int,
+    required_name.add_argument('-c', '--vcpus', nargs=1, type=int,
                                help='Number of CPU cores to be used on the KVM.', required=True)
     required_name.add_argument('-r', '--ram', nargs=1, type=int,
                                help='Number of Megabytes of memory to use, 1Gig=1024.',
@@ -59,11 +83,10 @@ def virt_install_arguments():
     required_name.add_argument('-l', '--location', nargs=1, type=str,
                                help='Location of installer.\nThis can be a mirror at HTTP or an iso.',
                                required=True)
-    required_name.add_argument('-o', '--os-variant', nargs=1, type=str,
+    required_name.add_argument('-o', '--os_variant', nargs=1, type=str,
                                help='Operating System flavor.\nExample: rhel7', required=True)
-    required_name.add_argument('-d', '--disk-size', nargs=1, type=int,
-                               help='Provide a number, this will be the disk size in Gigs.',
-                               required=True)
+    required_name.add_argument('-d', '--disk', nargs=2,
+                               help='Provide a directory for your disk path and size of disk in GB.\nExample: -d /var/lib/libvirt/images/centos7.qcow2 size=60', required=True)
     required_name.add_argument('-b', '--bridge', nargs=1, type=str,
                                help='Host device name for connecting networking.\nExample: "virbr0"',
                                required=True)
@@ -72,6 +95,7 @@ def virt_install_arguments():
                                required=True)
 
     args = parser.parse_args()
+    args = vars(args)
     return args
 
 
