@@ -19,6 +19,6 @@
 
 import subprocess
 
-def call_subprocess(virt_install):
-    subprocess.call(virt_install)
+def call_subprocess(send_to_subprocess):
+    subprocess.call(send_to_subprocess)
 

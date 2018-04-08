@@ -25,12 +25,14 @@ from lib.subprocesses import call_subprocess
 def format_virt_install(args):
     """Pull the keys to format the values, then build the virt-install command."""
     virt_install_command = ['virt-install']
+    special_arguments = []
     args.pop('License')
 
     if args['initrd_inject'] is None:
         del args['initrd_inject']
     else:
-        args['initrd_inject'] = args['initrd_inject'][0]
+        args['initrd-inject'] = args.pop('initrd_inject')
+        args['initrd-inject'] = ' '.join(args['initrd-inject'])
 
     if args['extra_args'] is None:
         del args['extra_args']
@@ -52,24 +54,38 @@ def format_virt_install(args):
     args['network'] = 'bridge:' + ''.join(args['network'])
 
     for key, value in args.iteritems():
-        virt_install_command.append('--{} {}'.format(key, value))
+        if key is 'extra-args' or key is 'initrd-inject':
+            special_arguments.append('--{}="{}"'.format(key, value))
+        else:
+            virt_install_command.append('--{} {}'.format(key, value))
+    # print virt_install_command
+    # print special_arguments
+    return [virt_install_command, special_arguments]
 
+def format_for_subprocess(virt_install):
+    """Format standard and spcial commands into split strings for subprocess to comprehend."""
     virsh_install = []
-    lists = [line.split() for line in virt_install_command]
+    virsh_commands_standard = virt_install[0]
+    virsh_commands_special = virt_install[1]
+    lists = [line.split() for line in virsh_commands_standard]
     for index in lists:
         for strings in index:
             virsh_install.append(strings)
+    for index in virsh_commands_special:
+        virsh_install.append(index)
     return virsh_install
 
 
 def main():
     """Run the kvm_installer script."""
     args = virt_install_arguments()
-    #print args
+    # print args # DEBUG
 
     virt_install = format_virt_install(args)
-    #print virt_install
-    call_subprocess(virt_install)
+    # print virt_install # DEBUG
+    send_to_subprocess = format_for_subprocess(virt_install)
+    # print send_to_subprocess # DEBUG
+    call_subprocess(send_to_subprocess)
 
     if __name__ == '__main__':
         main()

@@ -63,7 +63,7 @@ def virt_install_arguments():
 
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-i', '--initrd_inject', nargs=1, type=str,
+    parser.add_argument('-i', '--initrd_inject', nargs='*', type=str,
                         help='Inject scripts, such as a kickstart, into the initramfs.')
     parser.add_argument('-e', '--extra_args', nargs='*', type=str,
                         help='Apply extra arguments to install.\nExample: console=ttyS0')
