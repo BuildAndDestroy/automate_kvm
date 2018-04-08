@@ -53,7 +53,13 @@ def format_virt_install(args):
 
     for key, value in args.iteritems():
         virt_install_command.append('--{} {}'.format(key, value))
-    return virt_install_command
+
+    virsh_install = []
+    lists = [line.split() for line in virt_install_command]
+    for index in lists:
+        for strings in index:
+            virsh_install.append(strings)
+    return virsh_install
 
 
 def main():
@@ -62,12 +68,8 @@ def main():
     #print args
 
     virt_install = format_virt_install(args)
-    print virt_install
-
+    #print virt_install
     call_subprocess(virt_install)
-
-    # example subprocess that works:
-    #subprocess.call(['virt-install', '--name', 'centos_python', '--vcpus', '2', '--ram', '2048', '--location', 'http://mirror.centos.org/centos/6/os/x86_64/', '--os-variant', 'rhel6', '--disk', 'size=8', '--network', 'bridge=virbr0', '--graphics', 'none', '--extra-args', '"console=ttyS0"'])
 
     if __name__ == '__main__':
         main()
