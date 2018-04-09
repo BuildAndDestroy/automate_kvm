@@ -19,6 +19,7 @@
 
 import subprocess
 
-def call_subprocess(send_to_subprocess):
-    subprocess.call(send_to_subprocess)
 
+def call_subprocess(send_to_subprocess):
+    """Parse a list to be executed as a command."""
+    subprocess.call(send_to_subprocess)

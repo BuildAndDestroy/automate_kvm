@@ -19,11 +19,6 @@
 
 import argparse
 
-class VirtInstall(object):
-    """Parse arguments for virt-install."""
-    def __init__(self, arg):
-        pass
-        
 
 def create_snapshot_arguments():
     """Accept arguments to take a snapshot.
@@ -34,15 +29,20 @@ def create_snapshot_arguments():
     github_url = 'https://github.com/BuildAndDestroy/automate_kvm'
     epilog = 'Github reference:\n[*] {}\n\r'.format(github_url)
 
-    parser = argparse.ArgumentParser(description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
 
-    required_name = parser.add_argument_group('Required arguments for snapshot creation')
+    required_name = parser.add_argument_group(
+        'Required arguments for snapshot creation')
 
-    required_name.add_argument('-d', '--domain', nargs=1, type=str, help='Provide hostname for snapshot.', required=True)
-    required_name.add_argument('-n', '--name', nargs=1, type=str, help='provide name for new snapshot being created.', required=True)
+    required_name.add_argument('-d', '--domain', nargs=1, type=str,
+                               help='Provide hostname for snapshot.', required=True)
+    required_name.add_argument('-n', '--name', nargs=1, type=str,
+                               help='provide name for new snapshot being created.', required=True)
 
     args = parser.parse_args()
     return args
+
 
 def virt_install_arguments():
     """Arguments compiled to create KVM guest on a RedHat/CentOS host.

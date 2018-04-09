@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import json
 
 from lib.arguments import virt_install_arguments
 from lib.subprocesses import call_subprocess
@@ -26,6 +27,7 @@ def format_virt_install(args):
     """Pull the keys to format the values, then build the virt-install command."""
     virt_install_command = ['virt-install']
     special_arguments = []
+    single_argument = []
     args.pop('License')
 
     if args['initrd_inject'] is None:
@@ -40,13 +42,14 @@ def format_virt_install(args):
         args['extra-args'] = args.pop('extra_args')
         args['extra-args'] = ' '.join(args['extra-args'])
 
+    args['nographics'] = args.pop('graphics')
+
     args['name'] = args['name'][0]
     args['ram'] = args['ram'][0]
     args['vcpus'] = args['vcpus'][0]
     args['disk'] = 'path=' + ','.join(args['disk'])
-    args['graphics'] = 'none'
     args['location'] = args['location'][0]
-    
+
     args['os-variant'] = args.pop('os_variant')
     args['os-variant'] = args['os-variant'][0]
 
@@ -54,26 +57,34 @@ def format_virt_install(args):
     args['network'] = 'bridge:' + ''.join(args['network'])
 
     for key, value in args.iteritems():
-        if key is 'extra-args' or key is 'initrd-inject':
-            special_arguments.append('--{}="{}"'.format(key, value))
+        if key is 'extra-args':
+            special_arguments.append('--{}'.format(key))
+            special_arguments.append('{}'.format(value))
+        elif key is 'initrd-inject':
+            special_arguments.append('--{}={}'.format(key, value))
+        elif key is 'nographics':
+            single_argument.append('--{}'.format(key))
         else:
             virt_install_command.append('--{} {}'.format(key, value))
-    # print virt_install_command
-    # print special_arguments
-    return [virt_install_command, special_arguments]
+    return [virt_install_command, special_arguments, single_argument]
+
 
 def format_for_subprocess(virt_install):
     """Format standard and spcial commands into split strings for subprocess to comprehend."""
     virsh_install = []
     virsh_commands_standard = virt_install[0]
     virsh_commands_special = virt_install[1]
-    lists = [line.split() for line in virsh_commands_standard]
-    for index in lists:
+    virsh_commands_single = virt_install[2]
+    split_virsh_standard = [line.split() for line in virsh_commands_standard]
+
+    for index in split_virsh_standard:
         for strings in index:
             virsh_install.append(strings)
+    for index in virsh_commands_single:
+        virsh_install.append(index)
     for index in virsh_commands_special:
         virsh_install.append(index)
-    return virsh_install
+    return json.dumps(virsh_install)
 
 
 def main():
@@ -84,7 +95,7 @@ def main():
     virt_install = format_virt_install(args)
     # print virt_install # DEBUG
     send_to_subprocess = format_for_subprocess(virt_install)
-    # print send_to_subprocess # DEBUG
+    # print send_to_subprocess  # DEBUG
     call_subprocess(send_to_subprocess)
 
     if __name__ == '__main__':
