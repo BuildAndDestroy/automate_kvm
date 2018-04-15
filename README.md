@@ -24,7 +24,7 @@ virt-install is now working manually and with kickstart files, see examples belo
 -b virbr0
 -g 
 -i /root/anaconda.cfg
--e ks=file:/anaconda.cfg
+-e ks=file:/anaconda.cfg console=ttyS0
 
 # INSTALL
 
