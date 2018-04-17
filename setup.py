@@ -7,7 +7,7 @@
 
 from setuptools import setup
 
-__version__ = '2.7-virt-json'
+__version__ = '2.8-singleQ'
 packages = ['virsh_installs', 'snapshots', 'lib']
 commands = ['kvm_virsh_install = virsh_installs.virt_install:main',
             'kvm_virsh_snapshot = snapshots.virsh_snapshot:main']

@@ -68,6 +68,16 @@ def format_virt_install(args):
             virt_install_command.append('--{} {}'.format(key, value))
     return [virt_install_command, special_arguments, single_argument]
 
+def format_json_quotes(virt_install):
+    """
+        Virt-install relies on extra args to be double quotes.
+        Example:
+        ["--initrd-inject=/root/kickstart/ks.cfg",
+            "--extra-args", 
+            "console=ttyS0 ks=file:/ks.cfg"]
+    """
+    return json.dumps(virt_install[1])
+
 
 def format_for_subprocess(virt_install):
     """Format standard and spcial commands into split strings for subprocess to comprehend."""
@@ -84,7 +94,8 @@ def format_for_subprocess(virt_install):
         virsh_install.append(index)
     for index in virsh_commands_special:
         virsh_install.append(index)
-    return json.dumps(virsh_install)
+    #print json.dumps(virsh_install)
+    return virsh_install
 
 
 def main():
@@ -94,8 +105,9 @@ def main():
 
     virt_install = format_virt_install(args)
     # print virt_install # DEBUG
+    extra_args = format_json_quotes(virt_install)
     send_to_subprocess = format_for_subprocess(virt_install)
-    # print send_to_subprocess  # DEBUG
+    #print send_to_subprocess  # DEBUG
     call_subprocess(send_to_subprocess)
 
     if __name__ == '__main__':
